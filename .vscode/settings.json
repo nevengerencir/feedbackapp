@@ -1,0 +1,6 @@
+{
+  "reactSnippets.settings.importReactOnTop": false,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
+}
