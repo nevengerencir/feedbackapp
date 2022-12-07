@@ -4,7 +4,7 @@ import FeedbackContext from "../context/FeedbackContext";
 function RatingSelect({ select }) {
   const { feedbackEdit } = useContext(FeedbackContext);
 
-  const [selected, setSelected] = useState(10);
+  const [selected, setSelected] = useState(1);
   const handleChange = (e) => {
     setSelected(+e.currentTarget.value);
     select(+e.currentTarget.value);
@@ -49,6 +49,29 @@ function RatingSelect({ select }) {
           checked={selected === 3}
         />
         <label htmlFor="num3">3</label>
+      </li>
+      <li>
+        <input
+          type="radio"
+          id="num4"
+          name="rating"
+          value="4"
+          onChange={handleChange}
+          checked={selected === 4}
+        />
+        <label htmlFor="num4">4</label>
+      </li>
+      <li>
+        <input
+          type="radio"
+          id="num5"
+          name="rating"
+          value="5"
+          onChange={handleChange}
+          checked={selected === 5}
+        />
+        <label htmlFor="num5">5</label>
+        
       </li>
     </ul>
   );

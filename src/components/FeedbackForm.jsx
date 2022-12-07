@@ -1,13 +1,18 @@
 import { useContext } from "react";
 import FeedbackContext from "../context/FeedbackContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Card from "./shared/Card";
 import Button from "./shared/Button";
 import RatingSelect from "./RatingSelect";
-
+import FeedbackReducer from "./context/FeedbackReducer";
 function FeedbackForm() {
+  const initState = {
+    texty: "gsgs",
+  };
+  const [state, dispatch] = useReducer(FeedbackReducer, initState);
+
   const [text, setText] = useState("");
-  const [rating, setRating] = useState(10);
+  const [rating, setRating] = useState(1);
 
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
@@ -34,6 +39,10 @@ function FeedbackForm() {
       setBtnDisabled(false);
       setMessage(null);
     }
+    dispatch({
+      type: "SET_VALUE",
+      payload: e.target.value,
+    });
     setText(e.target.value);
   };
   const select = (selected) => {
@@ -47,7 +56,7 @@ function FeedbackForm() {
         rating,
       };
       if (feedbackEdit.edit === true) {
-        updateFeedback(feedbackEdit.item.id, newFeedback);
+        updateFeedback(feedbackEdit.item._id, newFeedback);
       } else {
         addFeedback(newFeedback);
       }

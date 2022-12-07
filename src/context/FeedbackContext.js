@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 const FeedbackContext = createContext();
 
@@ -11,30 +10,35 @@ export const FeedbackProvider = ({ children }) => {
   }, []);
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete")) {
-      await fetch(`/feedback/${id}`, {
+      await fetch(`/api/v1/feedbacks/${id}`, {
         method: "DELETE",
       });
-      setFeedback(feedback.filter((element) => element.id !== id));
+      setFeedback(feedback.filter((element) => element._id !== id));
     }
   };
   const fetchFeedback = async () => {
-    const response = await fetch("/feedback?_sort=id%order=desc");
+    const response = await fetch('/api/v1/feedbacks');
     const data = await response.json();
-    setFeedback(data);
+    console.log(data.data)
+    setFeedback(data.data);
     setLoading(false);
   };
   const updateFeedback = async (id, updItem) => {
-    const response = await fetch(`/feedback/${id}`, {
+    const response = await fetch(`/api/v1/feedbacks/${id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(updItem),
     });
-    const data = await response.json();
+    const json = await response.json();
+    console.log(123)
+
+    const data =  json.data
+   
     setFeedback(
       feedback.map((feedback) =>
-        feedback.id === id ? { ...feedback, ...data } : feedback
+        feedback._id === id ? { ...feedback, ...data } : feedback
       )
     );
   };
@@ -50,16 +54,16 @@ export const FeedbackProvider = ({ children }) => {
     });
   };
   const addFeedback = async (element) => {
-    const resp = await fetch("/feedback", {
+    const res = await fetch("/api/v1/feedbacks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(element),
     });
-    const data = await resp.json();
+    const data = await res.json();
 
-    setFeedback([data, ...feedback]);
+    setFeedback([(data.data), ...feedback]);
   };
 
   return (

@@ -8,7 +8,7 @@ function FeedbackItem({ item }) {
   return (
     <Card>
       <div className="num-display">{item.rating}</div>
-      <button onClick={() => handleDelete(item.id)} className="close">
+      <button onClick={() => handleDelete(item._id)} className="close">
         <FaTimes color="purple" />
       </button>
       <button className="edit">
